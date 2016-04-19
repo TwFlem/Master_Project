@@ -5,7 +5,7 @@
 #include <QDialog>
 
 namespace Ui {
-class SecondDialog; //the second dialog window
+class SecondDialog;
 }
 
 class SecondDialog : public QDialog
@@ -17,11 +17,13 @@ public:
     ~SecondDialog();
 
 private slots:
-    void on_pushButton_clicked(); //button corresponding to verify user
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::SecondDialog *ui;
-    void verifyUser(QString name);  //veryfies user
+    void verifyUser(QString name);
 
 };
 
