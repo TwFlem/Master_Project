@@ -8,7 +8,7 @@
 #include <QDebug>
 #include <QMovie>
 
-choosePet::choosePet(QWidget *parent) : //Windo that allows the user to choose which type of pet they'd like to choose
+choosePet::choosePet(QWidget *parent) : //Window that allows the user to choose which type of pet they'd like to choose
     QDialog(parent),
     ui(new Ui::choosePet)
 {
