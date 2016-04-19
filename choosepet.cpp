@@ -1,12 +1,12 @@
-#include "choosepet.h"
-#include "ui_choosepet.h"
-#include "mainmenu.h"
-#include "shop.h"
+#include "choosepet.h"      //header file
+#include "ui_choosepet.h"   //ui header file for gui
+#include "mainmenu.h"       //main menu header file to connect the guis
+#include "shop.h"           //shop header to display shop
 
-#include <QString>
-#include <QVector>
-#include <QDebug>
-#include <QMovie>
+#include <QString>          //Qt's version of string
+#include <QVector>          //Qt's built in vector
+#include <QDebug>           //Aids in debugging
+#include <QMovie>           //Qt's animation class
 
 choosePet::choosePet(QWidget *parent) : //Window that allows the user to choose which type of pet they'd like to choose
     QDialog(parent),
