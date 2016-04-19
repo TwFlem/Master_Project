@@ -15,7 +15,7 @@ choosePet::choosePet(QWidget *parent) : //Window that allows the user to choose 
     ui->setupUi(this);
 }
 
-choosePet::choosePet(QVector<QString> & info) ://Chhose from existing pets
+choosePet::choosePet(QVector<QString> & info) ://Chose from existing pets
     //QDialog(parent),
     ui(new Ui::choosePet)
 {
