@@ -11,35 +11,42 @@
 #include <QMessageBox>
 #include <QFile>
 
-shop::shop(QWidget *parent) :
+shop::shop(QWidget *parent) :   
     QDialog(parent),
     ui(new Ui::shop)
 {
     ui->setupUi(this);
 
-
+    //sets window title
     setWindowTitle(tr("Best Pet Shop Ever!"));
+    //sets every widget in gui
     initializeFoodShop();
+    //sets every widget's price tag
     setNames_Prices();
 
-
+    //sets gui's images
     setImages();
 
 }
 
+//sets up shop
 shop::shop(int token, QString names, int Pet, int petTyp) :
     //QDialog(parent),
     ui(new Ui::shop)
 {
+    
     ui->setupUi(this);
 
+    //sets up pet type
     setPetType(petTyp);
     qDebug() << petType;
     this->name = names;
     this->pet = Pet;
 
+    //loads user's pet's names
     LoadPet(names);
 
+    //loads pet information on gui
     if(pet == 1)
     {
 
@@ -59,7 +66,7 @@ shop::shop(int token, QString names, int Pet, int petTyp) :
 
     qDebug ()<< getHunger();
 
-
+    //gui tokens display and gui title
     setNumTokens(token);
     setWindowTitle(tr("Best Pet Shop Ever!"));
     initializeFoodShop();
@@ -76,6 +83,7 @@ shop::~shop()
 
 void shop::setImages()
 {
+    //points each food item thumbnail to a certain location on gui
     QPixmap pix0("C:/Users/Byron/Desktop/C++/QT Stuff/build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug/FOOD01.png");
     QPixmap pix1("C:/Users/Byron/Desktop/C++/QT Stuff/build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug/FOOD1.png");
     QPixmap pix2("C:/Users/Byron/Desktop/C++/QT Stuff/build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug/FOOD2.png");
@@ -98,6 +106,7 @@ void shop::setImages()
     QPixmap pix19("C:/Users/Byron/Desktop/C++/QT Stuff/build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug/FOOD19.png");
     QPixmap pix20("C:/Users/Byron/Desktop/C++/QT Stuff/build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug/FOOD20.png");
 
+    //label's each food item
     ui->food0Label->setPixmap(pix0);
     ui->food1Label->setPixmap(pix1);
     ui->food2Label->setPixmap(pix2);
@@ -122,8 +131,10 @@ void shop::setImages()
 
 }
 
+//initializes food shop
 void shop::initializeFoodShop()
 {
+    //stores each item in a verctor with its name, cost, and benificial value for pet
     shopItems.push_back(new Item("Mush", 1, 0, "food"));
     shopItems.push_back(new Item("Kibble", 10, 1, "food"));
     shopItems.push_back(new Item("Bone", 25, 1, "food"));
@@ -149,6 +160,7 @@ void shop::initializeFoodShop()
 
 void shop::setNames_Prices()
 {
+    //sets name for each item in the shop
     ui->label1->setText(shopItems[0]->getNameOfItem());
     ui->label2->setText(shopItems[1]->getNameOfItem());
     ui->label3->setText(shopItems[2]->getNameOfItem());
@@ -171,6 +183,7 @@ void shop::setNames_Prices()
     ui->label20->setText(shopItems[19]->getNameOfItem());
     ui->label21->setText(shopItems[20]->getNameOfItem());
 
+    //sets cost for each item in the shop
     ui->label->setNum(shopItems[0]->getCostOfItem());
     ui->label_2->setNum(shopItems[1]->getCostOfItem());
     ui->label_3->setNum(shopItems[2]->getCostOfItem());
@@ -194,14 +207,17 @@ void shop::setNames_Prices()
     ui->label_21->setNum(shopItems[20]->getCostOfItem());
 }
 
+//when button is clicked...
 void shop::on_pushButton0_clicked()
 {
+    //verifies that user bought item
     bool success;
     int cost = 0;
     int randNum = randomNumberGenerator();
     cost = shopItems[0]->getCostOfItem();
     success = enoughTokens(cost);
-
+    
+    //if sucessful, change token amount
     if(success == true)
     {
 
@@ -212,21 +228,25 @@ void shop::on_pushButton0_clicked()
     }
 }
 
+//returns number of tokens
 int shop::getNumTokens()
 {
     return tokenNumber;
 }
 
+//resets number tokens
 void shop::setNumTokens(int newNumTokens)
 {
     this->tokenNumber = newNumTokens;
 }
 
+//adds number of tokens
 void shop::addNumTokens(int newNumTokens)
 {
     this->tokenNumber += newNumTokens;
 }
 
+//determines whether or not there are enough tokens to purchase item
 bool shop::enoughTokens(int numNeeded)
 {
     if(tokenNumber >= numNeeded)
@@ -244,13 +264,19 @@ bool shop::enoughTokens(int numNeeded)
         }
 }
 
+//subtract tokens after purchase
 void shop::subtractNumTokens(int numNeeded)
 {
     tokenNumber -= numNeeded;
 }
 
+/*
+    from here until line 768, each method represents clicking a button corresponding to a food item. WLOG, each method determines
+    if there were enough tokens to buy the item, add's the benifits of buying the item to the pet, and subtracts tokens from balance
+*/
 void shop::on_pushButton1_clicked()
 {
+    //purchase item
     bool success;
     int cost = 0;
     int randNum = randomNumberGenerator();
@@ -742,8 +768,12 @@ void shop::on_pushButton20_clicked()
     }
 }
 
+/*End of food item button methods*/
+
+//opens bank account
 void shop::on_bankAccount_clicked()
 {
+    //updated bank account and file. shows bank vault
     updateVector();
     updateFile(name);
     theBank * bank = new theBank(getNumTokens(), name);
@@ -751,15 +781,17 @@ void shop::on_bankAccount_clicked()
     close();
 }
 
+//loads desired pet
 void shop::LoadPet(QString name)
 {
+    //checks if pet is valid
     QFile myFile("C:\\Users\\Byron\\Desktop\\C++\\QT Stuff\\build-QT_APP-Desktop_Qt_5_6_0_MSVC2015_64bit-Debug\\" + name + "PetHHL" ".txt");
     if(!myFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QMessageBox::information(0, "File error", myFile.errorString());
     }
 
-
+    //reads pet information
     QTextStream textStream(&myFile);
     QString line;
 
@@ -773,6 +805,7 @@ void shop::LoadPet(QString name)
 
 }
 
+//generates random numbers
 int shop::randomNumberGenerator()
 {
    int number = 0;
@@ -780,67 +813,80 @@ int shop::randomNumberGenerator()
    return number;
 }
 
+//converts strings to integers
 int shop::convertoInt(QString number)
 {
     int converted = number.toInt();
     return converted;
 }
 
+//get's pet hunger
 int shop::getHunger()
 {
     return petHunger;
 }
 
+//returns pet's happiness
 int shop::getHappiness()
 {
     return petHappiness;
 }
 
+//sets pet's hunger
 void shop::setHunger(int hunger)
 {
     this->petHunger = hunger;
 }
 
+//sets pet's happiness
 void shop::setHappinessLevel(int happiness)
 {
     this->petHappiness = happiness;
 }
 
+//adds pet happiness
 void shop::addHappinessLevel(int happy)
 {
     petHappiness += happy;
 }
 
+//adds pet hunger
 void shop::addHungerLevel(int hunger)
 {
     petHunger += hunger;
 }
 
+//subtract from current happiness
 void shop::subtractHappinessLevel(int happiness)
 {
     petHappiness -= happiness;
 }
 
+//provides info on pet favorite foods
 void shop::infoLikedit()
 {
     QMessageBox::information(this, tr("Shop"), tr("it's your pets favorite food!"));
 }
 
+//provides info on pets disliked foods
 void shop::infoDislikedit()
 {
     QMessageBox::information(this, tr("Shop"), tr("Your pet doesn't seem to like that food... they eat it anyway"));
 }
 
+//sets pet's type
 void shop::setPetType(int x)
 {
     this->petType = x;
 }
 
+//returns pet type
 int shop::getPetType()
 {
     return petType;
 }
 
+//converts an into to string
 QString shop::convertToString(int toconvert)
 {
     QString converted = QString::number(toconvert);
@@ -848,6 +894,7 @@ QString shop::convertToString(int toconvert)
     return converted;
 }
 
+//updates database
 void shop::updateVector()
 {
     if(pet == 1)
@@ -876,6 +923,7 @@ void shop::updateVector()
     }
 }
 
+//updates text file with new information
 void shop::updateFile(QString name)
 {
     QFile playerFile(name+"PetHHL.txt");
