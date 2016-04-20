@@ -1,3 +1,8 @@
+#ifndef TIMEGRAB_H
+#define TIMEGRAB_H
+
+#include <QDialog>
+#include <QtCore>
 #include <QtGui>
 
 namespace Ui {
@@ -46,3 +51,4 @@ private:
 };
 
 #endif // TIMEGRAB_H
+
