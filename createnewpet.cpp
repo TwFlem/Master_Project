@@ -11,34 +11,34 @@
 #include <QChar>
 
 
-createNewPet::createNewPet(QWidget *parent) :
+createNewPet::createNewPet(QWidget *parent) :   //create pet constructor
     QDialog(parent),
     ui(new Ui::createNewPet)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);  //create new pet gui
 
-    this->cycle = 0;
+    this->cycle = 0;    //cycle of pets to choose from
 
 
-    movie = new QMovie("c:/animations/Bunny.gif");
+    movie = new QMovie("c:/animations/Bunny.gif");  //bunny gif instantiation and display
     qDebug() << movie->isValid();
     ui->gifLabel->setMovie(movie);
     movie->start();
 }
 
-createNewPet::createNewPet(QString name) :
+createNewPet::createNewPet(QString name) :  //creates new pet object with name as desired
     //QDialog(parent),
     ui(new Ui::createNewPet)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);  //gui setup
 
-    setWindowFlags(Qt::WindowTitleHint);
+    setWindowFlags(Qt::WindowTitleHint);    //sets window title
 
     setWindowTitle(tr("Fantastic Pet Creator"));
     setPlayerName(name);
     this->cycle = 0;
 
-
+    //bunny gif instantiation and display
     movie = new QMovie("c:/animations/Bunny.gif");
     setPetType("Bunny");
     qDebug() << movie->isValid();
@@ -47,30 +47,33 @@ createNewPet::createNewPet(QString name) :
 }
 
 
-createNewPet::~createNewPet()
+createNewPet::~createNewPet()//deconstructor
 {
     delete ui;
 }
 
-void createNewPet::setPetName(QString name)
+void createNewPet::setPetName(QString name)//sets pet's name
 {
+    //get's name from gui and set's the pet's name
     name = ui->petName->text();
     this->petName = name;
 }
 
-QString createNewPet::getPetName()
+QString createNewPet::getPetName()//returns pet's name
 {
     return petName;
 }
 
-void createNewPet::viewPets(int x)
+void createNewPet::viewPets(int x)//view pets to choose from
 
 {
+    //path to get pet animations
     QString petPath;
 
+    //the cycle of choosing a pet
     x = cycle;
 
-
+    //the cycle is: Bunny, Cat, Dog, Dolphin, Dragon, Fish, Dragon, Gator, Monkey, Nick, Parrot
     if(x == 0)
     {
         setPetType("Bunny");
@@ -150,17 +153,17 @@ void createNewPet::on_pushButton_2_clicked()    //back button
     viewPets(cycle);
 }
 
-void createNewPet::setPetType(QString type)
+void createNewPet::setPetType(QString type) //Set pet types
 {
     this->petType = type;
 }
 
-QString createNewPet::getPetType()
+QString createNewPet::getPetType() //returns pet types
 {
     return petType;
 }
 
-void createNewPet::on_confirmButton_clicked()
+void createNewPet::on_confirmButton_clicked() //when clicked, confirms pet creation
 {
 
     writeHappyHungerLevel();
@@ -172,6 +175,7 @@ void createNewPet::on_confirmButton_clicked()
     QFile playerFile(playerName+".txt");
 
 
+    //if file exists
     if(playerFile.open(QIODevice::Append | QIODevice::Text))
     {
 
@@ -193,17 +197,18 @@ void createNewPet::on_confirmButton_clicked()
     }
 }
 
-void createNewPet::setPlayerName(QString name)
+
+void createNewPet::setPlayerName(QString name)//set player name
 {
     this->playerName = name;
 }
 
-QString createNewPet::getPlayerName()
+QString createNewPet::getPlayerName()//returns player name
 {
     return playerName;
 }
 
-QString createNewPet::getPetPersonality(QString petName)
+QString createNewPet::getPetPersonality(QString petName)//returns personality
 {
     QString personality;
     int lengthName = petName.length();
@@ -214,7 +219,7 @@ QString createNewPet::getPetPersonality(QString petName)
     }
 
 
-
+    //Randomly generated personalit of pet based on number
     int difference = (firstLetter.toLatin1() - 'A');
 
     if(difference > 25)
@@ -274,6 +279,7 @@ QString createNewPet::getPetPersonality(QString petName)
        return personality;
 }
 
+//Allows pet to be created
 void createNewPet::on_pushButton_3_clicked()
 {
     petNumber-= 1;
@@ -284,6 +290,7 @@ void createNewPet::on_pushButton_3_clicked()
     close();
 }
 
+//Writes current hunger level to pet
 void createNewPet::writeHappyHungerLevel()
 {
     QString playerName = getPlayerName();
