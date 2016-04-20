@@ -7,7 +7,7 @@
 #include "createnewplayer.h"
 
 namespace Ui {
-class MainWindow;//main window gui
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -17,26 +17,26 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QVector <QString> stringVector; //vector for soring information
+    QVector <QString> stringVector;
 
 private slots:
-    void on_pushButton_clicked();   //function for clicking buttton on gui
+    void on_pushButton_clicked();
 
-    void on_pushButtonYes_clicked();//function for clicking yes on gui
+    void on_pushButtonYes_clicked();
 
-    void on_pushButton_2No_clicked();//function for clicking no on gui
+    void on_pushButton_2No_clicked();
 
 private:
     Ui::MainWindow *ui;
-    void getTextFile();         //gets text file
-    QString userName;           //gets username
-    QString passWord;           //gets password
-    void setUsername(QString x);//sets username
-    void setPassword(QString x);//sets password
-    QString getPassword();      //returns password
-    QString getUsername();      //returns username
-    SecondDialog * secDialog;   //point towards second dialog gui
-    createNewPlayer * newPlayer;//points to newly created player
+    void getTextFile();
+    QString userName;
+    QString passWord;
+    void setUsername(QString x);
+    void setPassword(QString x);
+    QString getPassword();
+    QString getUsername();
+    SecondDialog * secDialog;
+    createNewPlayer * newPlayer;
 
 
 };

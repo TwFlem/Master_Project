@@ -34,7 +34,7 @@ shop::shop(int token, QString names, int Pet, int petTyp) :
     ui->setupUi(this);
 
     setPetType(petTyp);
-    qDebug() << petType;
+
     this->name = names;
     this->pet = Pet;
 
@@ -56,8 +56,6 @@ shop::shop(int token, QString names, int Pet, int petTyp) :
         setHunger(convertoInt(HHL[9]));
         setHappinessLevel(convertoInt(HHL[10]));
     }
-
-    qDebug ()<< getHunger();
 
 
     setNumTokens(token);
@@ -232,14 +230,11 @@ bool shop::enoughTokens(int numNeeded)
     if(tokenNumber >= numNeeded)
         {
           QMessageBox::information(this,tr("Shop"), tr("Purchase Successful!"));
-         // std::cout << "You current have " << (tokenNumber-numNeeded) << " tokens left!" << std::endl;
           return true;
         }
-        //if you do not you will not be able to make a purchase
         else
         {
           QMessageBox::warning(this, tr("Shop"), tr("Purchase unsuccessful not enough tokens! Study harder to earn more!"));
-          //std::cout << "To make this purchase you need " << (-1)*(tokenNumber-numNeeded) << " more tokens!" << std::endl;
           return false;
         }
 }
@@ -257,7 +252,7 @@ void shop::on_pushButton1_clicked()
 
     cost = shopItems[1]->getCostOfItem();
 
-    qDebug() << randNum;
+
 
     success = enoughTokens(cost);
     if(success == true)
