@@ -8,7 +8,7 @@ namespace Ui {
 class SecondDialog;
 }
 
-class SecondDialog : public QDialog
+class SecondDialog : public QDialog //second dialog class
 {
     Q_OBJECT
 
@@ -17,13 +17,13 @@ public:
     ~SecondDialog();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_clicked();   //verifies if username is correct
 
-    void on_pushButton_2_clicked();
+    void on_pushButton_2_clicked(); //exits gui
 
 private:
-    Ui::SecondDialog *ui;
-    void verifyUser(QString name);
+    Ui::SecondDialog *ui;           //gui
+    void verifyUser(QString name);  //checks to see if user is valid
 
 };
 
