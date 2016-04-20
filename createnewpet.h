@@ -4,11 +4,11 @@
 #include "seconddialog.h"    //reuses classes from seconddialog.h
 #include <QDialog>          //One of Qt's built in gui libraries
 #include <QMovie>
-#include <QFile>            
+#include <QFile>
 
 
 namespace Ui {              //creates new ui for createNewPet class
-class createNewPet;         
+class createNewPet;
 }
 
 class createNewPet : public QDialog //create new pet is a child class of Qt's QDialog parent class

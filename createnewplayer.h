@@ -16,23 +16,23 @@ class createNewPlayer : public QDialog
     Q_OBJECT
 
 public:
-    explicit createNewPlayer(QWidget *parent = 0); //create new player gui
+    explicit createNewPlayer(QWidget *parent = 0);
     ~createNewPlayer();
 
 
 
 private slots:
-    void on_pushButton_clicked();//Corresponding button when clicked
+    void on_pushButton_clicked();
 
 
 private:
     Ui::createNewPlayer *ui;
-    createNewPet * newPetWindow ;           //pointer to acess newpetwindow gui
-    void createPlayerFile(QString name);    //writes player information to text file
-    bool checkifFileExists(QString player); //checks of a txt file containing data exists
-    void setPlayerName(QString name);       //set's player's name
-    QString getPlayerName();                //gets player's name
-    QString player;                         //player name
+    createNewPet * newPetWindow ;
+    void createPlayerFile(QString name);
+    bool checkifFileExists(QString player);
+    void setPlayerName(QString name);
+    QString getPlayerName();
+    QString player;
 
 
 };

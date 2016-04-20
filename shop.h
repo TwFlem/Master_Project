@@ -18,6 +18,8 @@ class shop : public QDialog
 public:
     explicit shop(QWidget *parent = 0);
     shop(int tokens, QString name, int Pet, int petType);
+    QString convertToString(int toconvert);
+    int convertoInt(QString number);
     ~shop();
 
 
@@ -80,7 +82,7 @@ private:
     void addNumTokens(int newNumTokens);
     bool enoughTokens(int numNeeded);
     void subtractNumTokens(int numNeeded);
-    int convertoInt(QString number);
+
     void LoadPet(QString name);
     void setHunger(int hunger);
     void setHappinessLevel(int happiness);
@@ -100,7 +102,7 @@ private:
     int petType;
     int petHunger;
     int petHappiness;
-    QString convertToString(int toconvert);
+
     void updateFile(QString name);
     QString name;
     QVector <QString> HHL;

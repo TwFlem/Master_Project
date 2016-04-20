@@ -1,11 +1,15 @@
 #include "timegrab.h"
 #include "ui_timegrab.h"
+#include "shop.h"
+#include "mainmenu.h"
 #include <QMessageBox>
 #include <QString>
 #include <QTimer>
 #include <QtCore>
 #include <QtGui>
 #include <QDialog>
+#include <QVector>
+#include <QDebug>
 
 TimeGrab::TimeGrab(QWidget *parent) : //Set's up ui for the timer's window
     QDialog(parent),
@@ -42,6 +46,71 @@ TimeGrab::TimeGrab(QWidget *parent) : //Set's up ui for the timer's window
     ui->Happiness->setValue(happiness);                 //updates happiness on gui
     ui->Hunger->setValue(hunger);                       //updates hunger on gui
 }
+
+TimeGrab::TimeGrab(QVector <QString> &petInfo, int petNumber, QString name, QString token) : //Set's up ui for the timer's window
+    //QDialog(parent),
+    ui(new Ui::TimeGrab)
+{
+
+    this->petNumber = petNumber;
+    this->username = name;
+    this->totalTokens = convertToInt(token);
+    for(int i = 0; i < petInfo.size(); i++)
+    {
+        pets.push_back(petInfo[i]);
+    }
+
+    if(petNumber == 1)
+    {
+        setHunger(convertToInt(petInfo[1]));
+        setHappiness(convertToInt(petInfo[2]));
+        setLevel(convertToInt(petInfo[3]));
+    }
+    else if(petNumber == 2)
+    {
+        setHunger(convertToInt(petInfo[5]));
+        setHappiness(convertToInt(petInfo[6]));
+        setLevel(convertToInt(petInfo[7]));
+    }
+    else if(petNumber == 3)
+    {
+        setHunger(convertToInt(petInfo[10]));
+        setHappiness(convertToInt(petInfo[11]));
+        setLevel(convertToInt(petInfo[12]));
+    }
+
+    tokens = 0;
+    happiness = happines_s;
+    hunger = hungerz;
+    seconds = 0;
+    current_level_experience = 0;
+    total_experience = 0;
+
+    ui->setupUi(this);
+
+    timer = new QTimer(this);       //Timer to control time flow
+
+    setWindowTitle(tr("Study Time!"));//initial window size and title
+    resize(560,375);
+
+    ui->Continue->setEnabled(false);    //disables the continue button
+    ui->Pause->setEnabled(false);       //disables the pause button
+    ui->End->setEnabled(false);         //disables the end button
+
+    ui->ExperienceBar->setRange(0,100); //sets range of eperience bar
+    ui->ExperienceBar->setValue(0);     //sets current value to 0
+
+    ui->spinBox->setRange(0,23);        //sets range of both the minute and hour boxes. 23 hours and 60 minutes
+    ui->spinBox_2->setRange(0,60);
+
+    current_level = level;                  //pet level
+
+    ui->Level->setText(QString::number(current_level)); //updates level on gui
+    ui->Tokens->setText(QString::number(tokens));       //updates toekns on gui
+    ui->Happiness->setValue(happiness);                 //updates happiness on gui
+    ui->Hunger->setValue(hunger);                       //updates hunger on gui
+}
+
 
 TimeGrab::~TimeGrab()
 {
@@ -215,6 +284,10 @@ void TimeGrab::on_End_clicked()
 
   ui->Clock->setText("00 : 00 : 00");
 
+
+
+
+
 }
 
 //on level up...
@@ -230,4 +303,98 @@ void TimeGrab::level_up(){
     //pop up a message box
     QMessageBox::information(this,tr("LEVEL UP!!!!!!!!!!"),tr("Wow, you leveled up! What a super studier! Keep it up!"));
 
+}
+
+void TimeGrab::setHunger(int hungr)
+{
+    this->hungerz = hungr;
+}
+
+void TimeGrab::setHappiness(int happiness)
+{
+    this->happines_s = happiness;
+
+}
+
+int TimeGrab::convertToInt(QString x)
+{
+    int converted = x.toInt();
+
+    return converted;
+}
+
+QString TimeGrab::convertoString(int x)
+{
+    QString converted = QString::number(x);
+
+    return converted;
+}
+
+void TimeGrab::setLevel(int levl)
+{
+    this->level = levl;
+}
+
+void TimeGrab::updateVector()
+{
+    if(petNumber == 1)
+    {
+        QString hungers = convertoString(hunger);
+        QString happinesss = convertoString(happiness);
+        QString levels = convertoString(current_level);
+        pets[1] = hungers;
+        pets[2] = happinesss;
+        pets[3] = levels;
+
+
+    }
+    else if(petNumber == 2)
+    {
+        QString hungers = convertoString(hunger);
+        QString happinesss = convertoString(happiness);
+        QString levels = convertoString(current_level);
+        pets[5] = hungers;
+        pets[6] = happinesss;
+        pets[7] = levels;
+
+    }
+    else if(petNumber == 3)
+    {
+        QString hungers = convertoString(hunger);
+        QString happinesss = convertoString(happiness);
+        QString levels = convertoString(current_level);
+        pets[9] = hungers;
+        pets[10] = happinesss;
+        pets[11] = levels;
+    }
+}
+
+void TimeGrab::updateFile(QString name)
+{
+    QFile playerFile(name+"PetHHL.txt");
+
+
+    if(playerFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+
+        QTextStream text(&playerFile);
+
+        for(int i = 0; i < pets.size(); i++)
+        {
+            text << pets[i] << "\n";
+        }
+        text.flush();
+        playerFile.close();
+    }
+}
+
+
+void TimeGrab::on_MainMenu_clicked()
+{
+    updateVector();
+    updateFile(username);
+    totalTokens += tokens;
+    mainMenu * main = new mainMenu(username, convertoString(totalTokens));
+    main->show();
+    close();
 }
