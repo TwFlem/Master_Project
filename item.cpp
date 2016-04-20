@@ -1,17 +1,17 @@
 #include "item.h"
 #include <QString>
 
-Item::Item()
+Item::Item()//empty item constructor
 {
 
 }
 
-Item::Item(QString itemname, int itemCost, int matchPetType, QString itemType)
+Item::Item(QString itemname, int itemCost, int matchPetType, QString itemType) ////Real item constructor
 {
-    this->nameOfItem = itemname;
-    this->costOfItem = itemCost;
-    this->matchingPetType = matchPetType;
-    this->typeOfItem = itemType;
+    this->nameOfItem = itemname;    //item name
+    this->costOfItem = itemCost;    //item cost
+    this->matchingPetType = matchPetType;   //pet matching
+    this->typeOfItem = itemType;    //item type
 }
 
 Item::~Item()
@@ -19,17 +19,17 @@ Item::~Item()
 
 }
 
-int Item::getCostOfItem()
+int Item::getCostOfItem()//returns cost of item
 {
     return costOfItem;
 }
 
-QString Item::getNameOfItem()
+QString Item::getNameOfItem()//returns name of item
 {
     return nameOfItem;
 }
 
-int Item::getMatchingType()
+int Item::getMatchingType()//returns matching of item
 {
     return matchingPetType;
 }
