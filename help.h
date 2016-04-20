@@ -18,10 +18,10 @@ public:
     ~help();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_clicked(); //method when help button is clicked
 
 private:
-    Ui::help *ui;
+    Ui::help *ui;               //help gui
 };
 
 #endif // HELP_H
